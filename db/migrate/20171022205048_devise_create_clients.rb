@@ -19,6 +19,11 @@ class DeviseCreateClients < ActiveRecord::Migration[5.1]
       t.string   :current_sign_in_ip
       t.string   :last_sign_in_ip
 
+      t.string :username, unique: true, null:false
+      t.string :name, null: false
+      t.string :surname,null: false
+      t.float :total_payment, default: 0
+      
       ## Confirmable
       # t.string   :confirmation_token
       # t.datetime :confirmed_at
