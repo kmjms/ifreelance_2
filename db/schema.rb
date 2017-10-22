@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171022205056) do
+ActiveRecord::Schema.define(version: 20171022205650) do
 
   create_table "clients", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -33,6 +33,15 @@ ActiveRecord::Schema.define(version: 20171022205056) do
     t.index ["reset_password_token"], name: "index_clients_on_reset_password_token", unique: true
   end
 
+  create_table "expenses", force: :cascade do |t|
+    t.text "description", null: false
+    t.float "price", default: 0.0
+    t.integer "projects_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["projects_id"], name: "index_expenses_on_projects_id"
+  end
+
   create_table "freelances", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -52,6 +61,47 @@ ActiveRecord::Schema.define(version: 20171022205056) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_freelances_on_email", unique: true
     t.index ["reset_password_token"], name: "index_freelances_on_reset_password_token", unique: true
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.text "description", null: false
+    t.float "price", default: 0.0
+    t.integer "projects_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["projects_id"], name: "index_items_on_projects_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.float "price", default: 0.0
+    t.integer "clients_id", null: false
+    t.integer "freelances_id", null: false
+    t.integer "states_id", null: false
+    t.integer "type_projects_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clients_id"], name: "index_projects_on_clients_id"
+    t.index ["freelances_id"], name: "index_projects_on_freelances_id"
+    t.index ["states_id"], name: "index_projects_on_states_id"
+    t.index ["type_projects_id"], name: "index_projects_on_type_projects_id"
+  end
+
+  create_table "states", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "type_projects", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
