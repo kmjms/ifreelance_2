@@ -28,6 +28,11 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+
+        # Seccion personalizada para queries posteriores &&&&&&&&&&&&&&&&&&&66
+        
+        # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
       else
@@ -69,6 +74,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name, :description, :start_date, :end_date, :price,:client_id,:freelance_id,clients_id)
+      params.require(:project).permit(:name, :description, :start_date, :end_date, :price,:client_id,:freelance_id)
     end
 end
