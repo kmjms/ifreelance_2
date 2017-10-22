@@ -4,7 +4,7 @@ class CreateExpenses < ActiveRecord::Migration[5.1]
       t.text :description, null:false
       t.float :price, default:0
 
-      t.references :projects, foreign_key: true, null:false
+      #t.references :projects, foreign_key: true, null:false
 
       t.timestamps
     end
