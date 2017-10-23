@@ -61,6 +61,11 @@ class ExpensesController < ApplicationController
     end
   end
 
+  # funciones personalizadas &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&6
+  def get_total_expenses_by_project(project)
+    expenses = Expense.where(project_id: project).sum(:price)
+    return
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_expense
