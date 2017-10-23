@@ -66,6 +66,11 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def net_income
+    @income = Project.where(freelance_id:current_freelance.id).joins(:freelances).sum(:price)
+    render json:{income: @income}
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
