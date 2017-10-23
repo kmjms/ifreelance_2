@@ -68,13 +68,17 @@ class ProjectsController < ApplicationController
 
   # queries personalizados &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   def total_income
-    @income = Project.where(freelance_id:current_freelance.id).joins(:freelances)
+    @income = Project.where(freelance_id:current_freelance.id).joins(:freelances).sum(:price).select("price")
     render json:{income: @income}
   end
 
   def income_by_project
     @income  = Project.where(freelance_id:current_freelance.id).joins(:freelances)
     render json:{income: @income}
+  end
+  def net_profit
+    @incomes = Project.where(freelance_id:current_freelance.id).joins(:freelances).sum(:price).select("price")
+    @expenses = 
   end
   # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   private
