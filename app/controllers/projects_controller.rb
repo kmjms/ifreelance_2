@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  before_action :authenticate_freelance
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   # GET /projects
@@ -68,17 +69,26 @@ class ProjectsController < ApplicationController
 
   # queries personalizados &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   def total_income
-    @income = Project.where(freelance_id:current_freelance.id).joins(:freelances).sum(:price).select("price")
+    @income = Project.where(freelance_id:current_freelance.id).sum(:price)
     render json:{income: @income}
   end
 
   def income_by_project
-    @income  = Project.where(freelance_id:current_freelance.id).joins(:freelances)
-    render json:{income: @income}
+    @income  = Project.where(freelance_id:current_freelance.id).select(:price).as_json
+    render json:@income
   end
+
   def net_profit
-    @incomes = Project.where(freelance_id:current_freelance.id).joins(:freelances).sum(:price).select("price")
-    @expenses = 
+    incomes = Project.where(freelance_id:current_freelance.id).sum(:price)
+    expenses = Expense.join(:projects).where(freelance_id:current_freelance.id).sum("expenses.price")
+    @profit = incomes - expenses
+    render json:{profit:@profit}
+  end
+
+  def net_profit_by_project # falta por implementar
+    Items.join("LEFT JOIN expenses on items.project_id=expenses.project_id").as_json
+
+
   end
   # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
   private
